@@ -7,8 +7,9 @@ namespace AzureCards.WindowsStoreApp
 {
     public sealed partial class MainPage : Page
     {
-        private const string GATEWAY = "YOUR GATEWAY HERE";
-        private const string API_APP = "YOUR API APP URL HERE";
+        // todo: setup the page
+        private const string GATEWAY = "https://azurecards66c15fe52d0b446c920739d03a993afa.azurewebsites.net/";
+        private const string API_APP = "https://microsoft-apiapp0a2da56f83e24e4bb32f370b71044bb8.azurewebsites.net/";
 
         private IAppServiceClient _appServiceClient;
         private IAzureCardsClient _azureCards;
@@ -21,6 +22,20 @@ namespace AzureCards.WindowsStoreApp
             set { this.DataContext = value; }
         }
 
+        // todo: authenticate
+        private async Task<IAppServiceUser> AuthenticateAsync()
+        {
+            await _appServiceClient.Logout();
+
+            while (_appServiceClient.CurrentUser == null)
+            {
+                await _appServiceClient.LoginAsync(AUTH_PROVIDER, false);
+            }
+
+            return _appServiceClient.CurrentUser;
+        }
+
+        // todo: handle OnNavigated
         public MainPage()
         {
             this.InitializeComponent();
@@ -46,18 +61,7 @@ namespace AzureCards.WindowsStoreApp
             base.OnNavigatedTo(e);
         }
 
-        private async Task<IAppServiceUser> AuthenticateAsync()
-        {
-            await _appServiceClient.Logout();
-
-            while (_appServiceClient.CurrentUser == null)
-            {
-                await _appServiceClient.LoginAsync(AUTH_PROVIDER, false);
-            }
-
-            return _appServiceClient.CurrentUser;
-        }
-
+        // todo: refresh the card display
         private void RefreshCardDisplay()
         {
             var refreshCards = new Action(() =>

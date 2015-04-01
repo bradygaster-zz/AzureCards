@@ -13,6 +13,7 @@ namespace Cards.Controllers
 {
     public class DeckController : ApiController
     {
+        // todo: build the new deck api method
         private DeckIsolatedStorage _deckStorage;
         public DeckController()
         {
@@ -27,6 +28,7 @@ namespace Cards.Controllers
             return deckId;
         }
 
+        // todo: build a shuffle feature
         [HttpGet]
         [ResponseType(typeof(bool))]
         [Route("deck/{deckId}/shuffle")]
@@ -48,6 +50,7 @@ namespace Cards.Controllers
             return foundResponse;
         }
 
+        // todo: allow users to deal cards
         [HttpGet]
         [ResponseType(typeof(DealResponseMessage))]
         [Route("deck/{deckId}/deal/{cardCount}")]
