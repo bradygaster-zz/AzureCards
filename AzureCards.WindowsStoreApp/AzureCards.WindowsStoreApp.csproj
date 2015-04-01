@@ -105,15 +105,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AzureCards\AppServiceExtensions.cs" />
-    <Compile Include="AzureCards\AzureCardsClient.cs" />
-    <Compile Include="AzureCards\AzureCardsClientExtensions.cs" />
-    <Compile Include="AzureCards\Deck.cs" />
-    <Compile Include="AzureCards\DeckExtensions.cs" />
-    <Compile Include="AzureCards\IAzureCardsClient.cs" />
-    <Compile Include="AzureCards\IDeck.cs" />
-    <Compile Include="AzureCards\Models\Card.cs" />
-    <Compile Include="AzureCards\Models\DealResponseMessage.cs" />
     <Compile Include="CardDatabinderConverter.cs">
       <SubType>Code</SubType>
     </Compile>
