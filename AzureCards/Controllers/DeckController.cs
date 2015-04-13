@@ -13,10 +13,10 @@ namespace Cards.Controllers
 {
     public class DeckController : ApiController
     {
-        // todo: build the new deck api method
+        // demo01 - setup controller/new method
+
+        // demo02 - shuffle method
         
-        // todo: build a shuffle feature
-        
-        // todo: allow users to deal cards
+        // demo03 - deal method
     }
 }

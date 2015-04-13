@@ -7,17 +7,17 @@ namespace AzureCards.WindowsStoreApp
 {
     public sealed partial class MainPage : Page
     {
-        // todo: setup the page
+        // demo04 - setup the store app
         
-        // todo: authenticate
-        
-        // todo: handle OnNavigated
-        
-        // todo: refresh the card display
+        // demo05 - the authenticate method
 
+        // demo06 - refresh the card display
+
+        // demo07 - onnavigatedto handler
+        
         private void DealTapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            // todo: call the refresh method
+            // refresh the display
         }
     }
 }
