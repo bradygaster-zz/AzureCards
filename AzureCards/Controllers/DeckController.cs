@@ -7,10 +7,12 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 
 namespace Cards.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class DeckController : ApiController
     {
         // todo: build the new deck api method
