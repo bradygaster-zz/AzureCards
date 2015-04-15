@@ -6,6 +6,11 @@
     <style>
         body {
             margin-top: 60px;
+            font-family: 'Segoe UI';
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Segoe UI Light';
         }
 
         .card {
@@ -43,15 +48,16 @@
         </div>
     </nav>
 
-    <div class="container" ng-app="azureCardsApp" ng-controller="azureCardsCtrlr">
+    <div class="container" ng-app="azureCardsApp" ng-controller="azureCardsCtrlr" style="text-align: center;">
+        <div class="row"><h3>API Status: {{status}}</h3></div>
         <div class="row">
-            <button class="btn btn-primary" ng-click="newDeck()">New Deck</button>
-            <button class="btn btn-primary" ng-click="shuffle()">Shuffle</button>
-            <button class="btn btn-primary" ng-click="deal()">Deal</button>
+            <button class="btn btn-primary" ng-click="newDeck()" ng-disabled="deckId != ''">New Deck</button>
+            <button class="btn btn-primary" ng-click="shuffle()" ng-disabled="deckId == ''">Shuffle</button>
+            <button class="btn btn-primary" ng-click="deal()" ng-disabled="deckId == ''">Deal</button>
         </div>
         <div class="row">
-            <div ng-repeat="c in cards" class="card">
-                <img ng-src="/content/img/{{c.Face}}_of_{{c.Suit}}.png" />
+            <div ng-repeat="c in cards" class="card" />
+                <img ng-src="/content/img/{{c.Face}}_of_{{c.Suit}}.png" >
             </div>
         </div>
     </div>
@@ -59,8 +65,12 @@
     <script src="Scripts/angular.js"></script>
     <script type="text/javascript">
         angular.module('azureCardsApp', []).controller('azureCardsCtrlr', function ($scope, $http) {
+            $scope.dealCount = 5;
             $scope.deckId = '';
+            $scope.status = 'Ready';
             $scope.newDeck = function () {
+                $scope.status = 'Creating a deck';
+                $scope.cards = null;
                 $http({
                     method: 'GET',
                     url: 'https://microsoft-apiappf7078dfb7d3a4b049f4bbd030d24e0e3.azurewebsites.net/deck/new',
@@ -69,9 +79,11 @@
                     }
                 }).success(function (data) {
                     $scope.deckId = data;
+                    $scope.status = 'Deck created';
                 });
             };
             $scope.shuffle = function () {
+                $scope.status = 'Shuffling the deck';
                 $http({
                     method: 'GET',
                     url: 'https://microsoft-apiappf7078dfb7d3a4b049f4bbd030d24e0e3.azurewebsites.net/deck/' + $scope.deckId + '/shuffle',
@@ -79,17 +91,29 @@
                         'Content-Type': 'application/json'
                     }
                 }).success(function (data) {
+                    $scope.status = 'Deck shuffled';
                 });
             };
             $scope.deal = function () {
+                $scope.status = 'Dealing...';
                 $http({
                     method: 'GET',
-                    url: 'https://microsoft-apiappf7078dfb7d3a4b049f4bbd030d24e0e3.azurewebsites.net/deck/' + $scope.deckId + '/deal/5',
+                    url: 'https://microsoft-apiappf7078dfb7d3a4b049f4bbd030d24e0e3.azurewebsites.net/deck/' + $scope.deckId + '/deal/' + $scope.dealCount,
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 }).success(function (data) {
+                    if (data.Cards.length < $scope.dealCount) {
+                        $scope.deckId = '';
+                    }
                     $scope.cards = data.Cards;
+                    $scope.status = 'Cards dealt';
+                }).error(function () {
+                    $scope.newDeck();
+                    for (var i = 0; i < 10; i++) {
+                        $scope.shuffle();
+                    }
+                    $scope.deal();
                 });
             };
         });
